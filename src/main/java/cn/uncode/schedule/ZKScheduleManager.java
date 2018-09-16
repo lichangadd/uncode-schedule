@@ -1,11 +1,7 @@
 package cn.uncode.schedule;
 
 import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.Lock;
@@ -178,9 +174,11 @@ public class ZKScheduleManager extends ThreadPoolTaskScheduler implements Applic
         }
         //黑名单
         for (String blackIp : zkManager.getIpBlacklist()) {
-            for (String serverIp : serverList) {
+            Iterator<String> serverIpIterator = serverList.iterator();
+            while (serverIpIterator.hasNext()){
+                String serverIp = serverIpIterator.next();
                 if (serverIp.startsWith(blackIp)) {
-                    serverList.remove(blackIp);
+                    serverIpIterator.remove();
                 }
             }
         }
